@@ -1,0 +1,39 @@
+{
+  "name": "@nuxt/test-utils",
+  "version": "0.1.0",
+  "main": "index.js",
+  "author": "pimlie",
+  "license": "MIT",
+  "scripts": {
+    "lint": "eslint src test",
+    "test:ava": "ava",
+    "test:jest": "jest"
+  },
+  "dependencies": {
+    "get-port": "^5.0.0",
+    "klaw": "^3.0.0",
+    "node-env-file": "^0.1.8",
+    "request-promise-native": "^1.0.7",
+    "tib": "^0.6.5"
+  },
+  "peerDependencies": {
+    "ava": "^2.2.0",
+    "jest": "^24.8.0"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.5.5",
+    "@babel/plugin-syntax-dynamic-import": "^7.2.0",
+    "@babel/preset-env": "^7.5.5",
+    "@nuxtjs/eslint-config": "^1.0.1",
+    "ava": "^2.2.0",
+    "babel-eslint": "^10.0.2",
+    "babel-jest": "^24.8.0",
+    "babel-plugin-dynamic-import-node": "^2.3.0",
+    "eslint": "^6.1.0",
+    "jest": "^24.8.0",
+    "nuxt": "^2.8.1",
+    "sinon": "^7.3.2",
+    "std-env": "^2.2.1",
+    "vue-jest": "^3.0.4"
+  }
+}
