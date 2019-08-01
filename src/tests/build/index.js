@@ -4,7 +4,7 @@ import { pathsTest } from '../paths'
 
 const testName = 'Build'
 
-export async function build (config, callback, checkPaths) {
+export async function build (config, evaluate, checkPaths) {
   config.hookNuxt = config.hookNuxt || []
 
   const paths = checkPaths ? {} : undefined
@@ -30,8 +30,8 @@ export async function build (config, callback, checkPaths) {
     buildDone
   }
 
-  if (callback) {
-    await callback(testResults)
+  if (evaluate) {
+    await evaluate(testResults)
   }
 
   if (config.callback) {
@@ -41,15 +41,15 @@ export async function build (config, callback, checkPaths) {
   return testResults
 }
 
-export function buildTest (config, callback = noop, checkPaths) {
+export function buildTest (config, evaluate = noop, checkPaths) {
   createTest(testName, (...testArgs) => {
     return build(config, (...cbArgs) => {
-      return callback(...cbArgs, ...testArgs) // eslint-disable-line standard/no-callback-literal
+      return evaluate(...cbArgs, ...testArgs)
     }, checkPaths)
   })
 }
 
-export function fullTest (config = {}, { buildCallback }) {
+export function fullTest (config = {}, evaluate) {
   const fixtureName = getFixtureName(config)
   config.parentName = testName
 
@@ -63,7 +63,7 @@ export function fullTest (config = {}, { buildCallback }) {
       config.nuxt = $nuxt
       config.prevPaths = paths
 
-      return buildCallback(testResults, ...args)
+      return evaluate(testResults, ...args)
     }, checkPaths)
 
     pathsTest(config, noop, nuxtTestRunner)

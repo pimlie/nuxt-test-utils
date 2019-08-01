@@ -6,7 +6,7 @@ import {
   getTestName
 } from '../../utils'
 
-export async function paths (config = {}, callback) {
+export async function paths (config = {}, evaluate) {
   const { nuxt, changeablePaths = [], prevPaths = [] } = config
 
   // Eg normally when building Nuxt we only expect paths
@@ -30,8 +30,8 @@ export async function paths (config = {}, callback) {
     match: allowedPathsRE
   }
 
-  if (callback) {
-    await callback(testResults)
+  if (evaluate) {
+    await evaluate(testResults)
   }
 
   if (config.callback) {
@@ -41,17 +41,17 @@ export async function paths (config = {}, callback) {
   return testResults
 }
 
-export function pathsTest (config = {}, callback = noop, testRunner) {
+export function pathsTest (config = {}, evaluate = noop, testRunner) {
   const testName = getTestName(config, 'Check changed paths')
 
   createTest(testName, async (...testArgs) => {
     if (testRunner) {
-      const { pathsCallback } = await import(`./${testRunner}`)
-      callback = pathsCallback
+      const { evaluatePaths } = await import(`./${testRunner}`)
+      evaluate = evaluatePaths
     }
 
     return paths(config, (...cbArgs) => {
-      return callback(...cbArgs, ...testArgs) // eslint-disable-line standard/no-callback-literal
+      return evaluate(...cbArgs, ...testArgs)
     })
   })
 }
